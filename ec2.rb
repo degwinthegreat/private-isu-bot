@@ -98,7 +98,7 @@ class Ec2
     ip = res.reservations[0]&.instances[0]&.public_ip_address
     return 'error!' unless ip
 
-    "#{type} public ip address: ip"
+    "#{type} public ip address: #{ip}"
   end
 
   private
