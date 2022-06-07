@@ -36,10 +36,10 @@ client.on :message do |message|
     log = ec2.instance_stop(:bench)
     message.channel.post(log)
   when '/ip_app'
-    res = ec2.public_ip_address(:app)
+    res = ec2.instance_public_ip(:app)
     message.channel.post(res)
   when '/ip_bench'
-    res = ec2.public_ip_address(:bench)
+    res = ec2.instance_public_ip(:bench)
     message.channel.post(res)
   end
 end
