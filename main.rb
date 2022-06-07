@@ -18,23 +18,29 @@ client.on :message do |message|
   when '/hello'
     message.channel.post('Hello, Discord')
   when '/status_app'
-    status_message = ec2.status_app
+    status_message = ec2.instance_status(:app)
     message.channel.post(status_message)
   when '/status_bench'
-    status_message = ec2.status_bench
+    status_message = ec2.instance_status(:bench)
     message.channel.post(status_message)
   when '/start_app'
-    log = ec2.start_app
+    log = ec2.instance_start(:app)
     message.channel.post(log)
   when '/start_bench'
-    log = ec2.start_bench
+    log = ec2.instance_start(:bench)
     message.channel.post(log)
   when '/stop_app'
-    log = ec2.stop_app
+    log = ec2.instance_stop(:app)
     message.channel.post(log)
   when '/stop_bench'
-    log = ec2.stop_bench
+    log = ec2.instance_stop(:bench)
     message.channel.post(log)
+  when '/ip_app'
+    res = ec2.public_ip_address(:app)
+    message.channel.post(res)
+  when '/ip_bench'
+    res = ec2.public_ip_address(:bench)
+    message.channel.post(res)
   end
 end
 

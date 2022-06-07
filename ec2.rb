@@ -13,33 +13,7 @@ class Ec2
 
   attr_reader :ec2
 
-  def status_app
-    status_message(:app)
-  end
-
-  def status_bench
-    status_message(:bench)
-  end
-
-  def start_app
-    start_instance(:app)
-  end
-
-  def start_bench
-    start_instance(:bench)
-  end
-
-  def stop_app
-    stop_instance(:app)
-  end
-
-  def stop_bench
-    stop_instance(:bench)
-  end
-
-  private
-
-  def status_message(type)
+  def instance_status(type)
     status = []
     instance_id = type == :app ? app_instance_id : bench_instance_id
     res = ec2.describe_instance_status(instance_ids: [instance_id])
@@ -68,7 +42,7 @@ class Ec2
     message
   end
 
-  def start_instance(type)
+  def instance_start(type)
     instance_id = type == :app ? app_instance_id : bench_instance_id
     res = ec2.describe_instance_status(instance_ids: [instance_id])
 
@@ -93,7 +67,7 @@ class Ec2
     "Error starting instance: #{e.message}"
   end
 
-  def stop_instance(type)
+  def instance_stop(type)
     instance_id = type == :app ? app_instance_id : bench_instance_id
     res = ec2.describe_instance_status(instance_ids: [instance_id])
 
@@ -117,6 +91,17 @@ class Ec2
   rescue StandardError => e
     "Error stopping instance: #{e.message}"
   end
+
+  def instance_public_ip(type)
+    instance_id = type == :app ? app_instance_id : bench_instance_id
+    res = ec2.describe_instances(instance_ids: [instance_id])
+    ip = res.reservations[0]&.instances[0]&.public_ip_address
+    return 'error!' unless ip
+
+    "#{type} public ip address: ip"
+  end
+
+  private
 
   def app_instance_id
     ENV['APP_INSTANCE_ID']
