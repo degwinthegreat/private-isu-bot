@@ -96,7 +96,7 @@ class Ec2
     instance_id = type == :app ? app_instance_id : bench_instance_id
     res = ec2.describe_instances(instance_ids: [instance_id])
     ip = res.reservations[0]&.instances[0]&.public_ip_address
-    return 'error!' unless ip
+    return "#{type} instance has already terminated" unless ip
 
     "#{type} public ip address: #{ip}"
   end
