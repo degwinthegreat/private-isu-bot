@@ -17,28 +17,28 @@ client.on :message do |message|
   case message.content
   when '/hello'
     message.channel.post('Hello, Discord')
-  when '/status_app'
+  when '/status_app', '/app_status'
     status_message = ec2.instance_status(:app)
     message.channel.post(status_message)
-  when '/status_bench'
+  when '/status_bench', '/bench_status'
     status_message = ec2.instance_status(:bench)
     message.channel.post(status_message)
-  when '/start_app'
+  when '/start_app', '/app_start'
     log = ec2.instance_start(:app)
     message.channel.post(log)
-  when '/start_bench'
+  when '/start_bench', '/bench_start'
     log = ec2.instance_start(:bench)
     message.channel.post(log)
-  when '/stop_app'
+  when '/stop_app', 'app_stop'
     log = ec2.instance_stop(:app)
     message.channel.post(log)
-  when '/stop_bench'
+  when '/stop_bench', '/bench_stop'
     log = ec2.instance_stop(:bench)
     message.channel.post(log)
-  when '/ip_app'
+  when '/ip_app', '/app_ip'
     res = ec2.instance_public_ip(:app)
     message.channel.post(res)
-  when '/ip_bench'
+  when '/ip_bench', '/bench_ip'
     res = ec2.instance_public_ip(:bench)
     message.channel.post(res)
   end
